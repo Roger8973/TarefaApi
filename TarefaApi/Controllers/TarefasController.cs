@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TarefaApi.Models;
-using TarefaApi.Models.Enums;
 using TarefaApi.Repositores;
 
 namespace TarefaApi.Controllers
 {
-    //[Route("api/")]
-    //[ApiController]
     public class TarefasController : Controller
     {
         private readonly ITarefasRepositories _repositorio;
@@ -20,7 +16,6 @@ namespace TarefaApi.Controllers
         [HttpGet("v1/listar")]
         public IActionResult ListarTarefas()
         {
-
             return Ok(_repositorio.ListarTarefas());
         }
 
@@ -28,8 +23,7 @@ namespace TarefaApi.Controllers
 
         public IActionResult ListarTarefas(int codigo)
         {
-        
-            return Ok(_repositorio.GetTarefa(codigo));
+            return Ok(_repositorio.GetTarefaId(codigo));
         }
 
         [HttpPost("v1/adicionar")]
@@ -58,19 +52,14 @@ namespace TarefaApi.Controllers
             {
                 return BadRequest("Para adicionar a tarefa, deverá estar com status 1 - (Pendente).");
             }
+
             return Ok();
         }
 
         [HttpPut("v1/alterar")]
         public IActionResult AlterarTarefas(Tarefa tarefa)
         {
-            foreach (var item in _repositorio.ListarTarefas())
-            {
-                if (item.Codigo != tarefa.Codigo)
-                {
-                    return BadRequest("Para atualizar a tarefa, o código não pode ser alterado.");
-                }
-            }
+          
             if (tarefa.Descricao != null)
             {
                 if ((int)tarefa.Status != 1)
@@ -86,9 +75,6 @@ namespace TarefaApi.Controllers
             {
                 return BadRequest("Para atualizar a tarefa, deverá ser adicionada uma descrição.");
             }
-
-
-
 
             return Ok();
         }

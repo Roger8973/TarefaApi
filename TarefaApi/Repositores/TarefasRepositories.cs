@@ -18,15 +18,13 @@ namespace TarefaApi.Repositores
 
         public void AlterarTarefas(Tarefa tarefa)
         {
-            var index = _tarefas.FindIndex(0, 1, x => x.Codigo == tarefa.Codigo);
+            var index = _tarefas.FindIndex(x => x.Codigo == tarefa.Codigo);
             _tarefas[index] = tarefa;
         }
 
-
-
-        public Tarefa GetTarefa(int codigo)
+        public Tarefa GetTarefaId(int codigo)
         {
-           return _tarefas[codigo];
+           return _tarefas.FirstOrDefault(x => x.Codigo == codigo);
         }
 
         public IEnumerable<Tarefa> ListarTarefas()
